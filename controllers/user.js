@@ -1,6 +1,6 @@
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
-import { sendToken } from "../utils/features.js";
+import { sendCookie } from "../utils/features.js";
 import ErrorHandler from "../middlewares/error.js";
 
 export const registerUser = async (req, res, next) => {
@@ -20,8 +20,7 @@ export const registerUser = async (req, res, next) => {
       password: passwordHash,
     });
 
-    //! Call SendToken
-    sendToken(user, res, "Register Success", 201);
+    sendCookie(user, res, "Register Success", 201);
   } catch (err) {
     next(err);
   }
@@ -46,8 +45,7 @@ export const loginUser = async (req, res, next) => {
       });
     }
 
-    //! Call SendToken
-    sendToken(user, res, "Login Success", 200);
+    sendCookie(user, res, "Login Success", 200);
   } catch (err) {
     next(err);
   }
@@ -72,8 +70,7 @@ export const updateUser = async (req, res, next) => {
     let users = await User.findById(id);
     if (!users) return next(new ErrorHandler("User not found", 404));
 
-    //! Call SendToken
-    sendToken(users, res, "User Updated Success", 200);
+    sendCookie(users, res, "User Updated Success", 200);
   } catch (err) {
     next(err);
   }
@@ -87,8 +84,7 @@ export const DeleteUser = async (req, res, next) => {
     if (!users) return next(new ErrorHandler("User not found", 404));
 
     users.deleteOne();
-    //! Call SendToken
-    sendToken(users, res, "User Deleted Success", 200);
+    sendCookie(users, res, "User Deleted Success", 200);
   } catch (err) {
     next(err);
   }
@@ -101,8 +97,7 @@ export const getUser = async (req, res, next) => {
     let users = await User.findById(id);
     if (!users) return next(new ErrorHandler("User not found", 404));
 
-    //! Call SendToken
-    sendToken(users, res, "User fetched Success", 200);
+    sendCookie(users, res, "User fetched Success", 200);
   } catch (err) {
     next(err);
   }
