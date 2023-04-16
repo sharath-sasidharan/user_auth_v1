@@ -8,9 +8,8 @@ export const registerUser = async (req, res, next) => {
 
   try {
     let user = await User.findOne({ email });
-    //! while register verify the user exist or no, if no will creating the user for the first time  if yes then redirect user to login page
 
-    if (!user) return next(new ErrorHandler("User Already Exist", 404));
+    if (user) return next(new ErrorHandler("User Already Exist", 404));
 
     //! Hash the password before creating the user
     const passwordHash = await bcrypt.hash(password, 10);
