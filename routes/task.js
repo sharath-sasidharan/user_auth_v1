@@ -1,21 +1,13 @@
 import express from "express";
-import {
-  deleteTask,
-  getMyTask,
-  newTask,
-  updateTask,
-} from "../controllers/task.js";
+import { DeleteTask, addTask, getTask } from "../controllers/task.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/new", isAuthenticated, newTask);
+router.post("/new", isAuthenticated, addTask);
 
-router.get("/my", isAuthenticated, getMyTask);
+router.get("/all", isAuthenticated, getTask);
 
-router
-  .route("/:id")
-  .put(isAuthenticated, updateTask)
-  .delete(isAuthenticated, deleteTask);
+router.delete("/:id", isAuthenticated, DeleteTask);
 
 export default router;
